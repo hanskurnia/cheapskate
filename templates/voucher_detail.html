@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        {% if voucher.image %}
+            <img src="{{ voucher.image.url }}" class="card-img-top">
+        {% endif %}
+
+        <div class="card-body">
+
+            <h2>{{ voucher.title }}</h2>
+
+            <h4 class="text-success">
+                Diskon {{ voucher.discount }}%
+            </h4>
+
+            <p>
+                <strong>Kode Voucher:</strong>
+                {{ voucher.code }}
+            </p>
+
+            <p>
+                <strong>Berlaku sampai:</strong>
+                {{ voucher.expired_date }}
+            </p>
+
+            <div class="mt-4">
+
+                <a href="{% url 'claim_voucher' voucher.id %}"
+                   class="btn btn-success">
+                    🎁 Claim Voucher
+                </a>
+
+                <a href="{% url 'voucher_list' %}"
+                   class="btn btn-secondary">
+                    ⬅ Kembali
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

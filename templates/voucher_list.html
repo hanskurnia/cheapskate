@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">
+        🎫 Semua Voucher
+    </h2>
+
+    <!-- Search + Filter -->
+    <form method="GET" class="row g-3 mb-4">
+
+        <div class="col-md-5">
+
+            <input
+                type="text"
+                class="form-control"
+                name="search"
+                placeholder="Cari voucher..."
+                value="{{ request.GET.search }}">
+
+        </div>
+
+        <div class="col-md-4">
+
+            <select
+                name="category"
+                class="form-select">
+
+                <option value="">Semua Kategori</option>
+
+                {% for category in categories %}
+
+                <option
+                    value="{{ category.id }}"
+                    {% if request.GET.category == category.id|stringformat:"s" %}
+                        selected
+                    {% endif %}
+                >
+                    {{ category.name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <button class="btn btn-primary w-100">
+                🔍 Cari
+            </button>
+
+        </div>
+
+    </form>
+
+    <div class="row">
+
+        {% for voucher in vouchers %}
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow h-100">
+
+                <img
+                    src="{{ voucher.image.url }}"
+                    class="card-img-top"
+                    style="height:220px; object-fit:cover;"
+                    alt="{{ voucher.title }}">
+
+                <div class="card-body">
+
+                    <span class="badge bg-danger">
+                        HOT
+                    </span>
+
+                    <h5 class="mt-2">
+                        {{ voucher.title }}
+                    </h5>
+
+                    <h4 class="text-success">
+                        Diskon {{ voucher.discount }}%
+                    </h4>
+
+                    <p>
+                        <strong>Kode:</strong>
+                        {{ voucher.code }}
+                    </p>
+
+                    <p>
+                        <strong>Kategori:</strong>
+                        {{ voucher.category.name }}
+                    </p>
+
+                    <p>
+                        <strong>Berlaku hingga:</strong><br>
+                        {{ voucher.expired_date }}
+                    </p>
+
+                    <a
+                        href="{% url 'voucher_detail' voucher.id %}"
+                        class="btn btn-success w-100">
+
+                        Lihat Detail
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <div class="alert alert-warning text-center">
+
+                Voucher tidak ditemukan.
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="bg-primary text-white py-5">
+    <div class="container text-center">
+
+        <h1 class="display-3 fw-bold">
+            💸 CHEAPSKATE
+        </h1>
+
+        <p class="lead mt-3">
+            Find the Best Vouchers & Discounts Every Day
+        </p>
+
+        <a href="{% url 'voucher_list' %}" class="btn btn-warning btn-lg mt-4">
+            🎁 Explore Vouchers
+        </a>
+
+    </div>
+</section>
+
+<!-- SEARCH -->
+<div class="container">
+
+    <div class="row justify-content-center mt-5">
+
+        <div class="col-md-7">
+
+            <form method="GET" action="{% url 'voucher_list' %}">
+
+                <div class="input-group">
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="search"
+                        placeholder="Cari voucher...">
+
+                    <button class="btn btn-dark">
+                        🔍 Serch
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- KATEGORI -->
+<section class="container mt-5">
+
+    <h2 class="text-center mb-4">
+        📂 Category
+    </h2>
+
+    <div class="row text-center">
+
+        <div class="col">
+            <a href="{% url 'voucher_list' %}?category=1"
+               class="text-decoration-none text-dark">
+                <div style="font-size:40px;">🍔</div>
+                <h5>Food</h5>
+            </a>
+        </div>
+
+        <div class="col">
+            <a href="{% url 'voucher_list' %}?category=2"
+               class="text-decoration-none text-dark">
+                <div style="font-size:40px;">👕</div>
+                <h5>Fashion</h5>
+            </a>
+        </div>
+
+        <div class="col">
+            <a href="{% url 'voucher_list' %}?category=3"
+               class="text-decoration-none text-dark">
+                <div style="font-size:40px;">🎮</div>
+                <h5>Game</h5>
+            </a>
+        </div>
+
+        <div class="col">
+            <a href="{% url 'voucher_list' %}?category=4"
+               class="text-decoration-none text-dark">
+                <div style="font-size:40px;">💻</div>
+                <h5>Electronic</h5>
+            </a>
+        </div>
+
+        <div class="col">
+            <a href="{% url 'voucher_list' %}?category=5"
+               class="text-decoration-none text-dark">
+                <div style="font-size:40px;">✈️</div>
+                <h5>Travel</h5>
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- VOUCHER TERBARU -->
+<section class="container mt-5">
+
+    <h2 class="mb-4">
+        🔥 New Voucher
+    </h2>
+
+    <div class="row">
+
+        {% for voucher in vouchers %}
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow h-100">
+
+                <img src="{{ voucher.image.url }}"
+                     class="card-img-top"
+                     alt="{{ voucher.title }}"
+                     style="height:220px; object-fit:cover;">
+
+                <div class="card-body">
+
+                    <span class="badge bg-danger">
+                        HOT
+                    </span>
+
+                    <h5 class="card-title mt-2">
+                        {{ voucher.title }}
+                    </h5>
+
+                    <p class="text-success fw-bold">
+                        Diskon {{ voucher.discount }}%
+                    </p>
+
+                    <p>
+                        <strong>Code:</strong>
+                        {{ voucher.code }}
+                    </p>
+
+                    <p>
+                        <strong>Valid Until:</strong><br>
+                        {{ voucher.expired_date }}
+                    </p>
+
+                    <a href="{% url 'voucher_detail' voucher.id %}"
+                       class="btn btn-primary w-100">
+
+                        See Detail
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <div class="alert alert-warning text-center">
+
+                No Vouchers Available Yet.
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}
