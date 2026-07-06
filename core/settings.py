@@ -8,9 +8,9 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ==========================
+# =====================================
 # SECURITY
-# ==========================
+# =====================================
 
 SECRET_KEY = os.getenv(
     "SECRET_KEY",
@@ -29,21 +29,17 @@ CSRF_TRUSTED_ORIGINS = [
     "https://cheapskate-production.up.railway.app",
 ]
 
-# ==========================
-# INSTALLED APPS
-# ==========================
+# =====================================
+# APPLICATIONS
+# =====================================
 
 INSTALLED_APPS = [
-
-
-    # Local Apps
     "accounts",
     "vouchers",
     "categories",
     "claims",
     "pages",
 
-    # Django
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -52,9 +48,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 ]
 
-# ==========================
+# =====================================
 # MIDDLEWARE
-# ==========================
+# =====================================
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -70,9 +66,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "core.urls"
 
-# ==========================
+# =====================================
 # TEMPLATES
-# ==========================
+# =====================================
 
 TEMPLATES = [
     {
@@ -91,9 +87,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
-# ==========================
+# =====================================
 # DATABASE
-# ==========================
+# =====================================
 
 DATABASES = {
     "default": dj_database_url.config(
@@ -101,9 +97,9 @@ DATABASES = {
     )
 }
 
-# ==========================
+# =====================================
 # PASSWORD VALIDATION
-# ==========================
+# =====================================
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -120,38 +116,20 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# ==========================
-# LANGUAGE
-# ==========================
+# =====================================
+# INTERNATIONALIZATION
+# =====================================
 
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = "UTC"
-
 USE_I18N = True
-
 USE_TZ = True
 
-# ==========================
+# =====================================
 # STATIC FILES
-# ==========================
+# =====================================
 
 STATIC_URL = "/static/"
-
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
-
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
-# ==========================
-# STORAGE
-# ==========================
-
-if os.getenv("CLOUDINARY_CLOUD_NAME"):
-
-
-   STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
@@ -168,25 +146,15 @@ STORAGES = {
     },
 }
 
+# =====================================
+# MEDIA FILES
+# =====================================
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-else:
-
-    MEDIA_URL = "/media/"
-    MEDIA_ROOT = BASE_DIR / "media"
-
-    STORAGES = {
-        "default": {
-            "BACKEND": "django.core.files.storage.FileSystemStorage",
-        },
-        "staticfiles": {
-            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-        },
-    }
-
-# ==========================
-# DEFAULT AUTO FIELD
-# ==========================
+# =====================================
+# DEFAULT PRIMARY KEY
+# =====================================
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
