@@ -8,32 +8,45 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# ==========================
 # SECURITY
+# ==========================
+
 SECRET_KEY = os.getenv(
     "SECRET_KEY",
     "django-insecure--pa%6hx*g1=t=u0$+mca*v_^9(swcsm17786y46*@ikrsqi&an"
 )
 
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
-    "cheapskate-production.up.railway.app",
     "127.0.0.1",
     "localhost",
+    "cheapskate-production.up.railway.app",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://cheapskate-production.up.railway.app",
 ]
 
-# APPS
+# ==========================
+# INSTALLED APPS
+# ==========================
+
 INSTALLED_APPS = [
+
+    # Cloudinary
+    "cloudinary",
+    "cloudinary_storage",
+
+    # Local Apps
     "accounts",
     "vouchers",
     "categories",
     "claims",
     "pages",
 
+    # Django
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -42,7 +55,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 ]
 
+# ==========================
 # MIDDLEWARE
+# ==========================
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -57,7 +73,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "core.urls"
 
-# TEMPLATE
+# ==========================
+# TEMPLATES
+# ==========================
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -75,14 +94,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
+# ==========================
 # DATABASE
+# ==========================
+
 DATABASES = {
     "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR/'db.sqlite3'}"
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
     )
 }
 
-# PASSWORD
+# ==========================
+# PASSWORD VALIDATION
+# ==========================
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -98,7 +123,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# ==========================
 # LANGUAGE
+# ==========================
+
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -107,7 +135,10 @@ USE_I18N = True
 
 USE_TZ = True
 
-# STATIC
+# ==========================
+# STATIC FILES
+# ==========================
+
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [
@@ -116,17 +147,27 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+# ==========================
+# CLOUDINARY
+# ==========================
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+}
+
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
-# MEDIA (sementara lokal)
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+# ==========================
+# DEFAULT AUTO FIELD
+# ==========================
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
