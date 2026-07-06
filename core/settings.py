@@ -17,7 +17,7 @@ SECRET_KEY = os.getenv(
     "django-insecure--pa%6hx*g1=t=u0$+mca*v_^9(swcsm17786y46*@ikrsqi&an"
 )
 
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -35,9 +35,6 @@ CSRF_TRUSTED_ORIGINS = [
 
 INSTALLED_APPS = [
 
-    # Cloudinary
-    "cloudinary",
-    "cloudinary_storage",
 
     # Local Apps
     "accounts",
@@ -153,20 +150,26 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 if os.getenv("CLOUDINARY_CLOUD_NAME"):
 
-    CLOUDINARY_STORAGE = {
-        "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
-        "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
-        "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
-    }
 
-    STORAGES = {
-        "default": {
-            "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-        },
-        "staticfiles": {
-            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-        },
-    }
+   STATIC_URL = "/static/"
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 else:
 
