@@ -24,7 +24,7 @@ def register_user(request):
         messages.success(request, "Registrasi berhasil! Silakan login.")
         return redirect("login")
 
-    return render(request, "register.html")
+    return render(request, "accounts/register.html")
 
 
 def login_user(request):
@@ -34,7 +34,11 @@ def login_user(request):
         username = request.POST.get("username")
         password = request.POST.get("password")
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(
+            request,
+            username=username,
+            password=password
+        )
 
         if user is not None:
             login(request, user)
@@ -43,7 +47,7 @@ def login_user(request):
         else:
             messages.error(request, "Username atau Password salah!")
 
-    return render(request, "login.html")
+    return render(request, "accounts/login.html")
 
 
 def logout_user(request):
